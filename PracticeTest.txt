@@ -1,0 +1,371 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+class Candidate{
+  //Write Your Code Here..
+    private String name;
+    private int id;
+    private int age;
+   private String gender;
+   private String department;
+    private int yearOfJoining;
+    private double salary;
+    public Candidate(int id,String name,int age,String gender,String department,int yearOfJoining,double salary)
+    {
+      this.id=id;
+      this.name=name;
+      this.age=age;
+      this.gender=gender;
+      this.department=department;
+      this.yearOfJoining=yearOfJoining;
+      this.salary=salary;
+    }
+
+    public void setId(int id)
+    {
+      this.id=id;
+    }
+    public int getId()
+    {
+        return id;
+    }
+    public void setAge(int age)
+    {
+      this.age=age;
+    }
+    public int getAge()
+    {
+        return age;
+    }
+    public void setGender(String gender)
+    {
+        this.gender=gender;
+    }
+    public String getGender()
+    {
+        return gender;
+    }
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+    public String getName()
+    {
+        return name;
+    }
+     public void setDepartment(String department)
+    {
+        this.department=department;
+    }
+    public String getDepartment()
+    {
+        return department;
+    }
+     public void setYearOfJoining(int yearOfJoining)
+    {
+      this.yearOfJoining=yearOfJoining;
+    }
+    public int getYearOfJoining()
+    {
+        return yearOfJoining;
+    }
+
+
+
+     @Override
+    public String toString() {
+        return "Employee [id=" + id + ", name=" + name + ", age=" + age + ", gender=" + gender + ", department="
+                + department + ", yearOfJoining=" + yearOfJoining + ", salary=" + salary + "]";
+    }
+}
+
+class Implementation{
+  //Write Your Code Here..
+   public static Map<String,Long> getCount(List<Candidate> list)
+   {
+        long male=0;
+        long female=0;
+        for(Candidate c:list)
+        {
+             if(c.getGender().equals("Male"))
+             {
+               male++;
+             }
+             else
+             {
+               female++;
+             }
+        }
+        HashMap<String,Long>hm=new HashMap<>();
+        if(female!=0)
+          hm.put("Female",female);
+        if(male!=0)
+          hm.put("Male",male);
+        
+        return hm;
+
+   }
+   public static Map<String,Double> getAverageAge(List<Candidate> list)
+   {
+         Double malecount=0.0;
+         Double femalecount=0.0;
+         long male=0;
+         long female=0;
+         for(Candidate c:list)
+         {
+            if(c.getGender().equals("Male"))
+             {
+               male+=c.getAge();
+               malecount++;
+             }
+             else
+             {
+               female+=c.getAge();
+               femalecount++;
+             }
+         }
+         HashMap<String,Double>hm=new HashMap<>();
+         if(female!=0)
+          hm.put("Female",(Double)(female/femalecount));
+        if(male!=0)
+          hm.put("Male",(Double)(male/malecount));
+        return hm;
+
+   }
+
+     public static Map<String,Long> countCandidatesDepartmentWise(List<Candidate> list)
+     {
+          HashMap<String,Long>hm=new HashMap<>();
+          Long l=1L;
+          for(Candidate c:list)
+          {
+               String curr_dept=c.getDepartment();
+               if(hm.containsKey(curr_dept))
+               {
+                   hm.put(curr_dept,hm.get(curr_dept)+1);
+               }
+               else
+               {
+                   hm.put(curr_dept,l);
+               }
+          }
+          return hm;
+     }
+
+     public static Optional<Candidate> getYoungestCandidateDetails(List<Candidate> list)
+     {
+         int age=Integer.MAX_VALUE;
+         Candidate ans=null;
+         for(Candidate c:list)
+         {
+             if(c.getGender().equals("Male"))
+             {
+                 int curr_age=c.getAge();
+                 if(age>curr_age)
+                 {
+                   age=curr_age;
+                   ans=c;
+
+
+                 }
+
+             }
+         }
+        
+        Optional<Candidate> hm=new Optional<>();
+        hm.add(ans);
+         return hm;
+     }
+
+}
+
+public class Source {
+	public static void main(String args[] ) throws Exception {
+		/* Enter your code here. Read input from STDIN. Print output to STDOUT */
+	}
+}
+
+
+----------------------------------------------------------------------------------------------------
+
+
+import java.util.*;
+import java.lang.*;
+import java.util.regex.*;
+
+class TransactionParty {
+
+  String seller;
+  String buyer;
+  public TransactionParty(String seller,String buyer)
+  {
+     this.seller=seller;
+     this.buyer=buyer;
+  }   
+}
+
+class Receipt{
+
+  TransactionParty transactionParty;
+  String productsQR;
+   public Receipt(TransactionParty transactionParty,String productsQR)
+  {
+      this.transactionParty=transactionParty;
+      this.productsQR=productsQR;
+  }
+    
+}
+
+
+class GenerateReceipt{
+
+  public int verifyParty(Receipt r)
+  {
+            String s=r.transactionParty.seller;
+            String b=r.transactionParty.buyer;
+            boolean first=true;
+            int val=(int)'\'';
+            for(int i=0;i<s.length();i++)
+            {
+              if(i==0 || i==s.length()-1)
+              {
+                  int curr=(int)s.charAt(i);
+                  if((curr>=65 && curr<=90) || (curr>=97 && curr<=122))
+                  {
+                      
+                  }
+                  else
+                  {
+                      first=false;
+                  }
+
+              }
+              else
+              {
+                    char ch=s.charAt(i);
+                    if(!((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch=='-') || (val==(int)ch) || (ch==' ')))
+                    {
+                      first=false;
+                    }
+              }
+            }
+
+            boolean second=true;
+            for(int i=0;i<b.length();i++)
+            {
+              if(i==0 || i==b.length()-1)
+              {
+                  int curr=(int)b.charAt(i);
+                  if((curr>=65 && curr<=90) || (curr>=97 && curr<=122))
+                  {
+                      
+                  }
+                  else
+                  {
+                      second=false;
+                  }
+
+              }
+              else
+              {
+                    char ch=b.charAt(i);
+                    if(!((ch>='a' && ch<='z') || (ch>='A' && ch<='Z') || (ch=='-') || (val==(int)ch) || (ch==' ')))
+                    {
+                      second=false;
+                    }
+              }
+            }
+
+            if(first && second)
+               return 2;
+            if(first || second)
+              return 1;
+            return 0;
+
+  }
+
+  public String calcGST(Receipt r)
+  {
+           String curr=r.productsQR;
+           String a[]=curr.split("@");
+           String a1[]=a[0].split(",");
+           String a2[]=a[1].split(",");
+           String a3[]=a[2].split(",");
+           int gst=Integer.parseInt(a1[0])*Integer.parseInt(a1[1])+Integer.parseInt(a2[0])*Integer.parseInt(a2[1])+Integer.parseInt(a3[0])*Integer.parseInt(a3[1]);
+           gst=(gst*12)/100;
+
+           return String.valueOf(gst).toString();
+          
+  }
+    
+}
+class Source{
+  public static void main(String[] args){
+    
+  }
+}
+
+
+
+
+-----------------------------------------------------------------------------------
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.Stream;
+class Employee {
+
+    String name;
+    int salary;
+    Employee(String name,int salary)
+    {
+        this.name=name;
+        this.salary=salary;
+    }
+    public void setName(String name)
+    {
+        this.name=name;
+    }
+    public String getName()
+    {
+        return name;
+    }
+    public void setSalary(int salary)
+    {
+        this.salary=salary;
+    }
+    public int getSalary()
+    {
+        return salary;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("<");
+        sb.append("name: ");
+        sb.append(name);
+        sb.append(" salary: ");
+        sb.append("" + salary+">");
+        return sb.toString();
+
+    }
+}
+class EmployeeInfo{
+    enum SortMethod {
+    };
+     public boolean isCharacterPresentInAllNames(Collection<Employee> entities, String character)
+     {
+         
+          for(Employee e:entities)
+          {
+               int index=e.getName().indexOf(character);
+               if(index==-1)
+                  return false;
+          }
+           return true;
+     }
+    
+}
